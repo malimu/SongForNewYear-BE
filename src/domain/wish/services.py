@@ -1,4 +1,4 @@
-from core.crud import insert, get_by_id, get_many
+from src.core.crud import insert, get_by_id, get_many
 from datetime import datetime
 from typing import List
 

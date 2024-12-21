@@ -1,6 +1,6 @@
 from src.core.database import db
 from bson import ObjectId
-from typing import List, Optional
+from typing import List, Optional, Any
 
 # CREATE: 데이터 삽입
 async def insert(collection: str, data: dict) -> str:
@@ -26,3 +26,9 @@ async def update_by_id(collection: str, obj_id: str, update_data: dict) -> bool:
 async def delete_by_id(collection: str, obj_id: str) -> bool:
     result = await db[collection].delete_one({"_id": ObjectId(obj_id)})
     return result.deleted_count > 0
+
+# COUNT
+async def count_by_column(collection_name: str, column_name: str, value: Any) -> int:
+    collection = db[collection_name]
+    count = await collection.count_documents({column_name: value})
+    return count

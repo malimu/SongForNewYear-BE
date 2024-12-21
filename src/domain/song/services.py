@@ -1,4 +1,4 @@
-from core.crud import get_many, get_by_id, count_by_column
+from src.core.crud import get_many, get_by_id, count_by_column
 from typing import List
 
 # 카테고리별 노래 목록 가져오기
