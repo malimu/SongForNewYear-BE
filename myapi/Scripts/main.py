@@ -1,7 +1,7 @@
-import fastapi
+from fastapi import FastAPI
 
-app = fastapi.FastAPI()
+app = FastAPI()
 
-@app.get('/')
-def home():
-	return {"message": "Welcome Home!"}
+@app.get("/")
+def hello():
+    return {"message": "안녕하세요"}
