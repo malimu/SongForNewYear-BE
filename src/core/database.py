@@ -1,12 +1,22 @@
 from motor.motor_asyncio import AsyncIOMotorClient
 from pymongo import ASCENDING
+from pydantic import BaseSettings
 
-MONGO_URI = "mongodb://localhost:27017"
-DB_NAME = "song_for_new_year"
+# Config - Settings 클래스 정의
+class Settings(BaseSettings):
+    DB_URI: str
+    DB_NAME: str
+    
+    class Config:
+        env_file = ".env"
 
-client = AsyncIOMotorClient(MONGO_URI)
-db = client[DB_NAME]
+# 환경 변수 값 가져오기
+settings = Settings()
+
+# DB 클라이언트 초기화
+client = AsyncIOMotorClient(settings.DB_URI)
+db = client[settings.DB_NAME]
 
 # 인덱스 설정
 async def init_db():
-    await db["wishes"].create_index([("createdAt", ASCENDING)])
+    await db["wishes"].create_index([("created_at", ASCENDING)])
