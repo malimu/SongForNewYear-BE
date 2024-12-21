@@ -1,25 +1,25 @@
-from pydantic import BaseModel, Field
+from pydantic import Field
 from typing import Optional, List
 from datetime import datetime
 
-class Song(BaseModel):
-    songid: str
+class Song():
+    song_index: int
     title: str
     artist: str
     category: str
     lyrics: str
-    startTime: str
-    coverPath: str
+    start_time: str
+    cover_path: str
     genre: Optional[str]
-    youtubePath: str
+    youtube_path: str
     blessing: str
-    createdAt: datetime
-    modifiedAt: datetime
+    created_at: datetime
+    modified_at: datetime
 
-class Wish(BaseModel):
-    wishId: str
+class Wish():
+    wish_id: str
     nickname: str
     content: str
-    isDisplayed: bool = True
-    createdAt: datetime
-    songid: str
+    is_displayed: bool = True
+    created_at: datetime = Field(default_factory=datetime.utcnow)  # 자동 생성 시각 기록
+    song_id: str
