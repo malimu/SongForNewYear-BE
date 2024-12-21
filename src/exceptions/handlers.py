@@ -3,13 +3,16 @@ from fastapi.responses import JSONResponse
 from .custom_exceptions import CustomException
 
 async def custom_exception_handler(request: Request, exc: CustomException):
+    # `exc.status_code`가 None일 경우 기본 상태 코드를 설정
+    status_code = exc.status_code if exc.status_code is not None else 500
+
     return JSONResponse(
-        status_code=exc.status_code,
+        headers={"Access-Control-Allow-Origin": "*"},
+        status_code=status_code,
         content={
-            "error": {
-                "code": exc.error_code.code,
-                "message": exc.detail,
-            },
+            "status": status_code,
+            "code": exc.error_code.code,
+            "message": exc.error_code.message
         },
     )
 
