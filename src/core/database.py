@@ -1,6 +1,6 @@
 from motor.motor_asyncio import AsyncIOMotorClient
 from pymongo import ASCENDING
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 
 # Config - Settings 클래스 정의
 class Settings(BaseSettings):

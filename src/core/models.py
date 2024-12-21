@@ -1,8 +1,8 @@
-from pydantic import Field
+from pydantic import Field, BaseModel
 from typing import Optional, List
 from datetime import datetime
 
-class Song():
+class Song(BaseModel):
     song_index: int
     title: str
     artist: str
@@ -16,7 +16,7 @@ class Song():
     created_at: datetime
     modified_at: datetime
 
-class Wish():
+class Wish(BaseModel):
     wish_id: str
     nickname: str
     content: str
