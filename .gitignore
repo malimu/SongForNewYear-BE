@@ -1,4 +1,4 @@
-myapi.adb
+myapi/
 migrations
 alembic.ini
 
