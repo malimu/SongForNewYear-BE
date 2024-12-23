@@ -17,11 +17,11 @@ async def get_song_by_obj_id(obj_id: object):
 
 # 특정 카테고리에서 랜덤으로 한 곡을 선택
 async def get_random_song_by_category(category: str) -> dict:
-    song = await db["songs"].aggregate([
+    songs = await db["song"].aggregate([
         {"$match": {"category": category}},
         {"$sample": {"size": 1}}  
     ]).to_list(length=1)
-    return song[0]
+    return songs[0]
 
 
 '''
