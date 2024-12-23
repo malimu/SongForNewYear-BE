@@ -55,7 +55,7 @@ async def create_wish(nickname: str, content: str, song_id: str, is_displayed: b
         "nickname": nickname,
         "content": content,
         "is_displayed": is_displayed,
-        "created_at": datetime.now(),~
+        "created_at": datetime.now(),
         "song_id": song_id,
     }
     result = await db["wishes"].insert_one(wish_data)
