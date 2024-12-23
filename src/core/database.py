@@ -6,6 +6,7 @@ from pydantic_settings import BaseSettings
 class Settings(BaseSettings):
     DB_URI: str
     DB_NAME: str
+    openai_api_key: str
     
     class Config:
         env_file = ".env"
