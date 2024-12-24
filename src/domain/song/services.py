@@ -7,12 +7,14 @@ from typing import Optional, List
 # 전체 노래 목록 가져오기
 async def get_all_songs(skip: int, limit: int) -> List[dict]:
     filter_query = {}
-    return await get_many("song", filter_query, skip, limit)
+    songs = await get_many("song", filter_query, skip, limit)
+    return normalize_lyrics(songs)
 
 # 카테고리별 노래 목록 가져오기
 async def get_songs_by_category(category: Optional[str], skip: int, limit: int) -> List[dict]:
     filter_query = {"category": category} if category else {}
-    return await get_many("song", filter_query, skip, limit)
+    songs = await get_many("song", filter_query, skip, limit)
+    return normalize_lyrics(songs)
 
 # 카테고리에 맞는 총 노래 수를 반환
 async def get_total_songs_count(category: str) -> int:
@@ -20,12 +22,13 @@ async def get_total_songs_count(category: str) -> int:
 
 # _id로 노래 가져오기
 async def get_song_by_obj_id(_id: object):
-    return await get_by_id("song", _id)
+    song = await get_by_id("song", _id)
+    return normalize_lyrics([song])[0] if song else None
 
 # song_index로 노래 가져오기
 async def get_song_by_song_index(song_index: int):
-    return await get_by_column_value("song", "song_index", song_index)
-
+    song = await get_by_column_value("song", "song_index", song_index)
+    return normalize_lyrics([song])[0] if song else None
 
 # 특정 카테고리에서 랜덤으로 한 곡을 선택
 async def get_random_song_by_category(category: str) -> dict:
@@ -37,7 +40,14 @@ async def get_random_song_by_category(category: str) -> dict:
     # 결과가 비어 있는 경우
     if not result:
         raise CustomException(ErrorCode.SONG_NOT_FOUND)
-    return result[0]
+    return normalize_lyrics(result)[0]
+
+# 공통 메서드: normalize_lyrics 추가
+def normalize_lyrics(songs: List[dict]) -> List[dict]:
+    for song in songs:
+        if "lyrics" in song and isinstance(song["lyrics"], str):
+            song["lyrics"] = song["lyrics"].replace("\\n", "\n")
+    return songs
 
 '''
 # 노래 생성
