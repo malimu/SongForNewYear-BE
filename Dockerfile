@@ -1,10 +1,10 @@
 FROM python:3.11
 
-WORKDIR /src
+WORKDIR /code
 
-COPY ./src /src
+COPY ./src /code/src/
 
-RUN pip install --no-cache-dir -r /src/requirements.txt
+RUN pip install --no-cache-dir -r /code/src/requirements.txt
 
 # Upgrade pip to the latest version
 RUN pip install --upgrade pip
