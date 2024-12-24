@@ -33,7 +33,6 @@ async def delete_by_id(collection: str, obj_id: str) -> bool:
     return result.deleted_count > 0
 
 # COUNT
-async def count_by_column(collection_name: str, column_name: str, value: Any) -> int:
-    collection = db[collection_name]
-    count = await collection.count_documents({column_name: value})
+async def count_by_column(collection: str, filter: dict) -> int:
+    count = await db[collection].count_documents(filter)
     return count

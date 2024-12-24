@@ -17,8 +17,9 @@ async def get_songs_by_category(category: Optional[str], skip: int, limit: int) 
     return normalize_lyrics(songs)
 
 # 카테고리에 맞는 총 노래 수를 반환
-async def get_total_songs_count(category: str) -> int:
-    return await count_by_column("song", "category", category)
+async def get_total_songs_count(category: Optional[str]) -> int:
+    filter_query = {"category": category} if category else {}
+    return await count_by_column("song", filter_query)
 
 # _id로 노래 가져오기
 async def get_song_by_obj_id(_id: object):
@@ -42,7 +43,7 @@ async def get_random_song_by_category(category: str) -> dict:
         raise CustomException(ErrorCode.SONG_NOT_FOUND)
     return normalize_lyrics(result)[0]
 
-# 공통 메서드: normalize_lyrics 추가
+# 공통 메서드: normalize_lyrics (역슬래시 이스케이프 방지)
 def normalize_lyrics(songs: List[dict]) -> List[dict]:
     for song in songs:
         if "lyrics" in song and isinstance(song["lyrics"], str):
