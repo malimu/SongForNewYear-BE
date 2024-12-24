@@ -7,6 +7,7 @@ class Song(BaseModel):
     title: str
     artist: str
     category: str
+    tag: str
     lyrics: str
     start_time: str
     cover_path: str

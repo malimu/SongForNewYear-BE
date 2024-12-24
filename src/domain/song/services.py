@@ -1,3 +1,4 @@
+from src.core.database import db
 from src.core.crud import get_many, get_by_id, count_by_column
 from typing import List
 
@@ -13,6 +14,14 @@ async def get_total_songs_count(category: str) -> int:
 # obj_id로 노래 가져오기
 async def get_song_by_obj_id(obj_id: object):
     return await get_by_id("songs", obj_id)
+
+# 특정 카테고리에서 랜덤으로 한 곡을 선택
+async def get_random_song_by_category(category: str) -> dict:
+    songs = await db["song"].aggregate([
+        {"$match": {"category": category}},
+        {"$sample": {"size": 1}}  
+    ]).to_list(length=1)
+    return songs[0]
 
 
 '''
