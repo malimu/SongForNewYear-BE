@@ -8,8 +8,8 @@ class SongUnitResponse(BaseModel):
     artist: str
     category: str
     lyrics: str
-    coverPath: Optional[str] = None
-    youtubePath: str
+    cover_path: Optional[str] = None
+    youtube_Path: str
 
     class Config:
         orm_mode = True

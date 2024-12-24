@@ -23,7 +23,7 @@ async def get_songs_by_category_api(category: str, page: int = Query(1, ge=1), s
 @router.post("/", response_model=SongResponse)
 async def create_song_api(song: SongCreate):
     song_id = await create_song(song.dict())
-    return {**song.dict(), "songid": song_id, "createdAt": datetime.now(), "modifiedAt": datetime.now()}
+    return {**song.dict(), "song_id": song_id, "created_at": datetime.now(), "modified_at": datetime.now()}
 
 '''
 
