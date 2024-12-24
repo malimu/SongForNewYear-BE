@@ -23,11 +23,10 @@ async def process_wish(wish):
         "content": wish.content
     })
     
-    existing_wish_song = await db["song"].find_one({
-        "_id": existing_wish["song_id"]
-    })
     if existing_wish:
-        # 이미 존재하는 소원이 있으면 그것을 반환
+        existing_wish_song = await db["song"].find_one({
+            "_id": existing_wish["song_id"]
+        })
         song_id = str(existing_wish["_id"])
         return {
             "wish_id": song_id,

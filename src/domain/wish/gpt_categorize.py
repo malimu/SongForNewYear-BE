@@ -52,7 +52,7 @@ async def categorize_wish(content: str) -> dict:
         response = openai.chat.completions.create(
             model="gpt-4o-mini",
             messages=[{"role": "user", "content": prompt}],
-            max_tokens=50,
+            max_tokens=10,
             temperature=0.0
         )
         
