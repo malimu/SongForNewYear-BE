@@ -1,10 +1,14 @@
 FROM python:3.11
 
-COPY ./src /src
-WORKDIR /src
+WORKDIR /code
 
-RUN pip install -r requirements.txt
+COPY ./src /code/src/
 
-EXPOSE 8080
+RUN pip install --no-cache-dir -r /code/src/requirements.txt
 
-CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8080"]
+# Upgrade pip to the latest version
+RUN pip install --upgrade pip
+
+EXPOSE 8000
+
+CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
