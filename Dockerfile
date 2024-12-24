@@ -8,8 +8,7 @@ RUN pip install -r requirements.txt
 # Upgrade pip to the latest version
 RUN pip install --upgrade pip
 
-# Set PYTHONPATH to /src to include the src directory in the module path
-ENV PYTHONPATH=/src
+ENV PYTHONPATH=/myapp/src
 
 EXPOSE 8000
 
