@@ -18,7 +18,6 @@ class Song(BaseModel):
     modified_at: datetime
 
 class Wish(BaseModel):
-    wish_id: str
     nickname: str
     content: str
     is_displayed: bool = True

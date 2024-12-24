@@ -1,11 +1,16 @@
 from fastapi import APIRouter, Query
 from src.domain.song.schemas import PaginatedResponse
 from src.domain.song.services import get_songs_by_category, get_total_songs_count
+from typing import Optional
 
 router = APIRouter()
 
 @router.get("/list", response_model=PaginatedResponse)
-async def get_songs_by_category_api(category: str, page: int = Query(1, ge=1), size: int = Query(10, ge=1)):
+async def get_songs_by_category_api(
+    category: Optional[str] = None,  # category를 선택적으로 지정
+    page: int = Query(1, ge=1),
+    size: int = Query(10, ge=1)
+):
     skip = (page - 1) * size
     songs = await get_songs_by_category(category, skip, size)
     total_items = await get_total_songs_count(category)
@@ -23,7 +28,7 @@ async def get_songs_by_category_api(category: str, page: int = Query(1, ge=1), s
 @router.post("/", response_model=SongResponse)
 async def create_song_api(song: SongCreate):
     song_id = await create_song(song.dict())
-    return {**song.dict(), "songid": song_id, "createdAt": datetime.now(), "modifiedAt": datetime.now()}
+    return {**song.dict(), "song_id": song_id, "created_at": datetime.now(), "modified_at": datetime.now()}
 
 '''
 

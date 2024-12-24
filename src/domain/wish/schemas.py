@@ -6,16 +6,16 @@ from datetime import datetime
 class WishCreate(BaseModel):
     nickname: str
     content: str
-    is_displayed: bool = Field(alias="isDisplayed")
+    is_displayed: bool = Field(alias="is_displayed")
 
 # 랜덤4개 소원 응답 스키마
 class WishResponse(BaseModel):
     wishid: str = Field(alias="wishId")
     nickname: str
     content: str
-    is_displayed: bool = Field(alias="isDisplayed")
-    created_at: datetime = Field(alias="createdAt")
-    songid: str
+    is_displayed: bool = Field(alias="is_displayed")
+    created_at: datetime = Field(alias="created_at")
+    song_id: str
 
     class Config:
         from_attributes = True 
@@ -26,15 +26,15 @@ class SongRecommendation(BaseModel):
     title: str
     artist: str
     lyrics: str
-    cover_path: str = Field(alias="coverPath")
-    youtube_path: str = Field(alias="youtubePath")
-    recommend_time: str = Field(alias="recommendtime")
+    cover_path: str = Field(alias="cover_path")
+    youtube_path: str = Field(alias="youtube_path")
+    recommend_time: str = Field(alias="recommend_time")
 
 class RecommendationResponse(BaseModel):
     nickname: str
     wish: str
     recommended_song: SongRecommendation
-    wish_id: str = Field(alias="wishId")
+    wish_id: str = Field(alias="_id")
 
     class Config:
         from_attributes = True

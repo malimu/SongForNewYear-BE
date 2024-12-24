@@ -20,4 +20,4 @@ db = client[settings.DB_NAME]
 
 # 인덱스 설정
 async def init_db():
-    await db["wishes"].create_index([("created_at", ASCENDING)])
+    await db["wish"].create_index([("created_at", ASCENDING)])
