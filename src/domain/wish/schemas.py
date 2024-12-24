@@ -11,12 +11,10 @@ class WishCreate(BaseModel):
 
 # 랜덤4개 소원 응답 스키마
 class WishRandomResponse(BaseModel):
-    wish_id: str = Field(alias="_id")
     nickname: str
     content: str
     is_displayed: bool = Field(alias="is_displayed")
     created_at: datetime = Field(alias="created_at")
-    song_id: str
 
     class Config:
         from_attributes = True 
@@ -32,7 +30,6 @@ class SongRecommendation(BaseModel):
     recommend_time: str = Field(alias="recommend_time")
 
 class RecommendationResponse(BaseModel):
-    wish_id: str
     nickname: str
     wish: str
     category: str

@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from src.domain.wish.schemas import WishCreate, WishRandomResponse, RecommendationResponse, SongRecommendation
+from src.domain.wish.schemas import WishCreate, WishRandomResponse, RecommendationResponse
 from src.domain.wish.services import process_wish, get_random_wishes
 
 from typing import List, Optional
