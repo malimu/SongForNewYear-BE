@@ -9,7 +9,7 @@ class SongUnitResponse(BaseModel):
     category: str
     lyrics: str
     cover_path: Optional[str] = None
-    youtube_Path: str
+    youtube_path: str
 
     class Config:
         orm_mode = True
