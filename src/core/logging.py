@@ -1,10 +1,9 @@
 import logging
 import sys
-from settings import settings  # settings.py 파일에서 환경 설정을 가져옵니다.
 
 # 로깅 설정 함수
 def setup_logging():
-    log_level = logging.DEBUG if settings.DEBUG else logging.INFO  # DEBUG 모드일 때 더 자세한 로그 출력
+    log_level = logging.DEBUG
 
     logging.basicConfig(
         level=log_level,

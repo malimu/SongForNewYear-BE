@@ -8,8 +8,13 @@ async def insert(collection: str, data: dict) -> str:
     return str(result.inserted_id)
 
 # READ: 특정 ID로 데이터 가져오기
-async def get_by_id(collection: str, obj_id: str) -> Optional[dict]:
-    result = await db[collection].find_one({"_id": ObjectId(obj_id)})
+async def get_by_id(collection: str, _id: str) -> Optional[dict]:
+    result = await db[collection].find_one({"_id": ObjectId(_id)})
+    return result
+
+# READ: 특정 컬럼의 값으로 데이터 가져오기
+async def get_by_column_value(collection: str, column_name: str, value: Any) -> Optional[dict]:
+    result = await db[collection].find_one({column_name: value})
     return result
 
 # READ: 조건으로 데이터 가져오기 (페이징 지원)

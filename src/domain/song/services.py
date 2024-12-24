@@ -1,30 +1,43 @@
 from src.core.database import db
-from src.core.crud import get_many, get_by_id, count_by_column
+from src.core.crud import get_many, get_by_id, get_by_column_value, count_by_column
+from src.exceptions.custom_exceptions import CustomException
+from src.exceptions.error_codes import ErrorCode
 from typing import Optional, List
+
+# 전체 노래 목록 가져오기
+async def get_all_songs(skip: int, limit: int) -> List[dict]:
+    filter_query = {}
+    return await get_many("song", filter_query, skip, limit)
 
 # 카테고리별 노래 목록 가져오기
 async def get_songs_by_category(category: Optional[str], skip: int, limit: int) -> List[dict]:
-    # category가 None이면 전체 데이터를 가져오도록 필터를 빈 딕셔너리로 설정
     filter_query = {"category": category} if category else {}
     return await get_many("song", filter_query, skip, limit)
 
 # 카테고리에 맞는 총 노래 수를 반환
 async def get_total_songs_count(category: str) -> int:
-    count = await count_by_column("song", "category", category)
-    return count
+    return await count_by_column("song", "category", category)
 
 # _id로 노래 가져오기
 async def get_song_by_obj_id(_id: object):
     return await get_by_id("song", _id)
 
+# song_index로 노래 가져오기
+async def get_song_by_song_index(song_index: int):
+    return await get_by_column_value("song", "song_index", song_index)
+
+
 # 특정 카테고리에서 랜덤으로 한 곡을 선택
 async def get_random_song_by_category(category: str) -> dict:
-    songs = await db["song"].aggregate([
+    result = await db["song"].aggregate([
         {"$match": {"category": category}},
-        {"$sample": {"size": 1}}  
+        {"$sample": {"size": 1}}
     ]).to_list(length=1)
-    return songs[0]
 
+    # 결과가 비어 있는 경우
+    if not result:
+        raise CustomException(ErrorCode.SONG_NOT_FOUND)
+    return result[0]
 
 '''
 # 노래 생성
