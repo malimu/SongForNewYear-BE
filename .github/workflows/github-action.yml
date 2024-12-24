@@ -30,10 +30,14 @@ jobs:
 
     # 5. Build and push Docker image
     - name: Build & push Docker image
-      run: |
-        sudo docker build -t ${{ secrets.DOCKER_REPO }}:latest .
-        sudo docker push ${{ secrets.DOCKER_REPO }}:latest
-
+      uses: docker/build-push-action@v6
+      with:
+        context: .
+        file: ./Dockerfile
+        push: true
+        platforms: ubuntu/amd64
+        tags: ${{ secrets.DOCKER_REPO }}:latest
+        
     # 6. SSH to EC2 and deploy Docker container
     - name: SSH to EC2 & deploy Docker container
       uses: appleboy/ssh-action@master
