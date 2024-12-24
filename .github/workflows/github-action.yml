@@ -50,4 +50,4 @@ jobs:
           sudo docker ps -qa | xargs -r sudo docker rm -f
           sudo docker pull ${{ secrets.DOCKER_REPO }}:latest
           sudo docker run -d -p 8000:8000 ${{ secrets.DOCKER_REPO }}:latest
-          sudo docker image prune -f # 불필요한 이미지를 정리
+          sudo docker image prune -f
