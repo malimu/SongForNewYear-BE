@@ -3,9 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from src.core.database import init_db
 from src.domain.wish.routers import router as wish_router
-from src.domain.wish.routers import router as wish_router
 from src.domain.song.routers import router as song_router
-
 from src.exceptions.handlers import setup_exception_handlers
 
 app = FastAPI()
