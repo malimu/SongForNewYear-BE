@@ -2,7 +2,7 @@ FROM python:3.11
 
 WORKDIR /code
 
-COPY ./src /code/src
+COPY ./src /code/src/
 
 RUN pip install --no-cache-dir -r /code/src/requirements.txt
 
