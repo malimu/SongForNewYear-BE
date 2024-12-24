@@ -35,7 +35,7 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        platforms: ubuntu/amd64
+        platforms: linux/amd64
         tags: ${{ secrets.DOCKER_REPO }}:latest
         
     # 6. SSH to EC2 and deploy Docker container
