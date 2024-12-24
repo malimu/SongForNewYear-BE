@@ -26,7 +26,7 @@ jobs:
 
     # 4. Create .env file from GitHub Secrets
     - name: Create .env file
-      run: echo "${{ secrets.ENV }}" > ./.env
+      run: echo "${{ secrets.ENV }}" > ./src/.env
 
     # 5. Build and push Docker image
     - name: Build & push Docker image

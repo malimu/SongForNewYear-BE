@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     openai_api_key: str
     
     class Config:
-        env_file = ".env"
+        env_file = "src/.env"
 
 # 환경 변수 값 가져오기
 settings = Settings()
