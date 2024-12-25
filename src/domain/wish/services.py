@@ -156,16 +156,20 @@ async def create_wish(nickname: str, content: str, song_id: str, is_displayed: b
 
 # 랜덤 소원 가져오기
 async def get_random_wishes(limit: int = 4) -> List[dict]:
-    wishes = await db["wish"].aggregate([{"$sample": {"size": limit}}]).to_list(length=limit)
+    wishes = await db["wish"].aggregate([
+        {"$match": {"is_displayed": True}},  # is_displayed가 True인 것만 필터링
+        {"$sample": {"size": limit}}        # 랜덤으로 limit 개수 선택
+    ]).to_list(length=limit)
+    
     for wish in wishes:
         song = await get_by_id("song", wish["song_id"])
         if song:
             category = song.get("category")
             if category is None:
-                wish["category"] = "WEALTH" # 에러를 발생시키는 대신 임의의 카테고리 값을 삽입
+                wish["category"] = "WEALTH"  # 에러를 발생시키는 대신 임의의 카테고리 값을 삽입
             wish["category"] = category
         else:
-            wish["category"] = "HAPPINESS" # 에러를 발생시키는 대신 임의의 카테고리 값을 삽입
+            wish["category"] = "HAPPINESS"  # 에러를 발생시키는 대신 임의의 카테고리 값을 삽입
     return wishes
 
 
