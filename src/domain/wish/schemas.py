@@ -33,6 +33,7 @@ class RecommendationResponse(BaseModel):
     wish: str
     category: str
     recommended_song: SongRecommendation
+    wishes_count: int
 
     class Config:
         from_attributes = True
