@@ -11,6 +11,7 @@ app = FastAPI()
 origins = [
     "http://localhost:3000",
     "http://localhost:8000",
+    "https://songfornewyear.vercel.app"
 ]
 
 expose_headers = [
