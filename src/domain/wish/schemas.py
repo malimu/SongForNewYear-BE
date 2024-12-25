@@ -11,8 +11,9 @@ class WishCreate(BaseModel):
 class WishRandomResponse(BaseModel):
     nickname: str
     content: str
-    is_displayed: bool 
+    is_displayed: bool
     created_at: datetime
+    category: str
 
     class Config:
         from_attributes = True 
@@ -27,6 +28,7 @@ class SongRecommendation(BaseModel):
     recommend_time: str 
 
 class RecommendationResponse(BaseModel):
+    wish_id: str
     nickname: str
     wish: str
     category: str

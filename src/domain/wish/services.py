@@ -19,7 +19,7 @@ async def process_wish(wish):
         return await handle_existing_wish(existing_wish)
 
     # 키워드 기반 태그 검색 및 추천
-    keyword_recommendation = await recommend_by_keyword(wish.content)
+    keyword_recommendation = await recommend_by_keyword(wish)
     if keyword_recommendation:
         return keyword_recommendation
 
@@ -28,10 +28,10 @@ async def process_wish(wish):
 
 ## 유효성 검사 함수
 def validate_wish(wish):
-    if not wish.content:
+    if not wish.nickname or not wish.content:
         raise CustomException(ErrorCode.MISSING_PARAMETER)
-    wish.content = wish.content.strip()
     wish.nickname = wish.nickname.strip()
+    wish.content = wish.content.strip()
 
 ## 기존 소원 찾기
 async def find_existing_wish(wish):
@@ -45,30 +45,45 @@ async def handle_existing_wish(existing_wish):
     existing_wish_song = await db["song"].find_one({
         "_id": existing_wish["song_id"]
     })
-    song_id = str(existing_wish["_id"])
     return {
-        "wish_id": song_id,
+        "wish_id": str(existing_wish["_id"]),
         "nickname": existing_wish["nickname"],
         "wish": existing_wish["content"],
         "category": existing_wish_song["category"],
         "recommended_song": format_song_data(existing_wish_song),
-        "wishes_count": await count_wishes_by_song_id(song_id)
+        "wishes_count": await count_wishes_by_song_id(existing_wish["song_id"])
     }
 
 ## 키워드 기반 추천
-async def recommend_by_keyword(content):
+async def recommend_by_keyword(wish):
     for keyword, tag in keyword_to_tag.items():
-        if keyword in content:
+        if keyword in wish.content:
             recommended_song = await get_random_song_by_tag(tag)
+            
             if recommended_song:
+                
+                # 노래 추천 시점 계산
+                recommend_time = calculate_recommend_time(recommended_song["start_time"])
+
+                # 소원 데이터 생성
+                created_wish = await create_wish(
+                    nickname=wish.nickname,
+                    content=wish.content,
+                    song_id=recommended_song["_id"],
+                    is_displayed=wish.is_displayed,
+                )
+    
                 return {
-                    "wish_id": None,
-                    "nickname": None,
-                    "wish": content,
+                    "wish_id": str(created_wish["_id"]),
+                    "nickname": created_wish["nickname"],
+                    "wish": created_wish["content"],
                     "category": recommended_song["category"],
-                    "recommended_song": format_song_data(recommended_song),
-                    "wishes_count": await count_wishes_by_song_id(recommended_song["_id"])
-                }
+                    "recommended_song": {
+                        **format_song_data(recommended_song),
+                        "recommend_time": str(recommend_time),
+                    },
+                    "wishes_count": await count_wishes_by_song_id(created_wish["song_id"])
+    }
     return None
 
 ## 태그 분류 및 추천
@@ -87,10 +102,9 @@ async def categorize_and_recommend(wish):
         song_id=recommended_song["_id"],
         is_displayed=wish.is_displayed,
     )
-    song_id = str(created_wish["_id"])
-
+    
     return {
-        "wish_id": song_id,
+        "wish_id": str(created_wish["_id"]),
         "nickname": created_wish["nickname"],
         "wish": created_wish["content"],
         "category": recommended_song["category"],
@@ -98,7 +112,7 @@ async def categorize_and_recommend(wish):
             **format_song_data(recommended_song),
             "recommend_time": str(recommend_time),
         },
-        "wishes_count": await count_wishes_by_song_id(song_id)
+        "wishes_count": await count_wishes_by_song_id(created_wish["song_id"])
     }
 
 ## 노래 데이터 포맷팅
@@ -123,7 +137,7 @@ def calculate_recommend_time(start_time):
 
 
 # 소원 생성
-async def create_wish(nickname: str, content: str, song_id: str, is_displayed: bool) -> str:
+async def create_wish(nickname: str, content: str, song_id: str, is_displayed: bool) -> dict:
     wish_data = {
         "nickname": nickname,
         "content": content,
