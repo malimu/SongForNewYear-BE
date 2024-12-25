@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 from datetime import datetime
 
 # 소원 생성 요청 스키마
@@ -7,7 +7,7 @@ class WishCreate(BaseModel):
     content: str
     is_displayed: bool
 
-# 랜덤 4개 소원 응답 스키마
+# 랜덤4개 소원 응답 스키마
 class WishRandomResponse(BaseModel):
     nickname: str
     content: str
@@ -17,7 +17,6 @@ class WishRandomResponse(BaseModel):
 
     class Config:
         from_attributes = True 
-        allow_population_by_field_name = True
 
 # 추천 결과 스키마
 class SongRecommendation(BaseModel):
@@ -26,7 +25,7 @@ class SongRecommendation(BaseModel):
     lyrics: str
     cover_path: str
     youtube_path: str
-    recommend_time: str = Field(alias="recommend_time")
+    recommend_time: str 
 
 class RecommendationResponse(BaseModel):
     wish_id: str
@@ -34,8 +33,6 @@ class RecommendationResponse(BaseModel):
     wish: str
     category: str
     recommended_song: SongRecommendation
-    wishes_count: int
 
     class Config:
         from_attributes = True
-        allow_population_by_field_name = True
