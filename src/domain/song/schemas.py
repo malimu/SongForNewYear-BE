@@ -9,8 +9,8 @@ class SongUnitResponse(BaseModel):
     lyrics: str
     cover_path: Optional[str] = None
     youtube_path: Optional[str] = None
-    start_time: str = Field(alias="start_time")
-    total_time: str = Field(alias="total_time")
+    start_time: str
+    total_time: str
 
     class Config:
         orm_mode = True
