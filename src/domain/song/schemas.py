@@ -1,5 +1,4 @@
 from pydantic import BaseModel
-from datetime import datetime
 from typing import List, Optional
 
 # 노래 응답 스키마
@@ -9,7 +8,9 @@ class SongUnitResponse(BaseModel):
     category: str
     lyrics: str
     cover_path: Optional[str] = None
-    youtube_path: str
+    youtube_path: Optional[str] = None
+    recommend_time: str = Field(alias="recommend_time")
+    total_time: str = Field(alias="total_time")
 
     class Config:
         orm_mode = True

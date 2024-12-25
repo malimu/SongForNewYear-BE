@@ -10,6 +10,7 @@ class Song(BaseModel):
     tag: str
     lyrics: str
     start_time: str
+    total_time: str
     cover_path: str
     genre: Optional[str]
     youtube_path: str
