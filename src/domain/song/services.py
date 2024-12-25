@@ -17,7 +17,7 @@ async def get_songs_by_category(category: Optional[str], skip: int, limit: int) 
     return normalize_lyrics(songs)
 
 # 태그별 노래 목록 가져오기
-async def get_songs_by_tag_without_special(tag: str, skip: int, limit: int) -> List[dict]:
+async def get_songs_by_tag(tag: str, skip: int, limit: int) -> List[dict]:
     filter_query = {"tag": {"$ne": "SPECIAL"}}
     if tag:
         filter_query["tag"] = {"$eq": tag, "$ne": "SPECIAL"}

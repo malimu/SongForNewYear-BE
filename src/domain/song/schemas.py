@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import Field, BaseModel
 from typing import List, Optional
 
 # 노래 응답 스키마
