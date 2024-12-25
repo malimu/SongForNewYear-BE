@@ -9,7 +9,7 @@ class SongUnitResponse(BaseModel):
     lyrics: str
     cover_path: Optional[str] = None
     youtube_path: Optional[str] = None
-    recommend_time: str = Field(alias="recommend_time")
+    start_time: str = Field(alias="start_time")
     total_time: str = Field(alias="total_time")
 
     class Config:
