@@ -16,13 +16,13 @@ openai = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 async def categorize_wish(content: str) -> dict:
     # 태그 Enum 목록 가져오기
-    tag_enum = get_tag_enum_list()
+    tag_enum = [tag for tag in get_tag_enum_list() if tag != "SPECIAL"]
 
     # 태그별 노래 목록 가져오기
     total_songs = []
     for tag in tag_enum:
         songs = await get_songs_by_tag(tag, skip=0, limit=100)
-        tag_songs = [{"title": song["title"], "idx": song["song_index"]} for song in songs]
+        tag_songs = [{"tag": tag, "idx": song["song_index"]} for song in songs]
         total_songs.append({
             "category": tag,
             "songs": tag_songs
@@ -30,20 +30,19 @@ async def categorize_wish(content: str) -> dict:
 
     # 프롬프트
     prompt = f'''
-    당신은 사용자의 소원을 듣고 그것을 다음 8가지 카테고리 중 하나로 분류한 뒤, 제목을 바탕으로 가장 적합한 노래를 골라줍니다.
-    소원의 핵심 내용을 이해하고 단 한 곡을 선택해야 합니다.
-    * category 값은 다음 중 하나입니다: {", ".join(tag_enum)}
+    당신은 사용자의 소원을 듣고 그것을 다음 tag 중 하나로 분류합니다.
+    * tag 값은 다음 중 하나입니다: {", ".join(tag_enum)}
 
     * OUTPUT 형태 및 자료형:
+    정확히 다음과 같은 JSON 형식으로 반환해야 합니다:
     {{
-      \"idx\": int
+      "tag": "값"
     }}
 
-    아래 INPUT의 total_songs중 wish를 이루어줄 노래를 1개 골라 OUTPUT 형태에 맞게 응답하세요.
+    아래 INPUT에 대해 적합한 tag를 골라 반환하세요:
     * INPUT:
     {{
-      "wish": "{content}",
-      "total_songs": {json.dumps(total_songs)}
+      "wish": "{content}"
     }}
     '''
 
@@ -52,29 +51,26 @@ async def categorize_wish(content: str) -> dict:
         response = openai.chat.completions.create(
             model="gpt-4o-mini",
             messages=[{"role": "user", "content": prompt}],
-            max_tokens=10,
+            max_tokens=30,
             temperature=0.0
         )
         
         # Extracting the content from the response
         message_content = response.choices[0].message.content
-        
-        print(response.choices[0].message.content)
 
-        # Parsing the response JSON (the response is expected to be in valid JSON format)
+        # 코드 블록 제거
+        if message_content.startswith("```"):
+            message_content = message_content.split("```")[1].strip()
+
+        # JSON 파싱
         response_json = json.loads(message_content)
+        tag = response_json.get("tag")
 
-        # Extracting required data
-        song_index = response_json.get("idx")
-
-        # Validating the response
-        if song_index is None:
-            raise ValueError("Invalid response format: Missing required keys.")
-
-        # Returning the result
-        return {
-            "song_index": song_index
-        }
+        # 태그 검증
+        if tag is None:
+            raise ValueError("Invalid response format: 'tag' key is missing.")
+        
+        return {"tag": tag}
 
     except json.JSONDecodeError as e:
         error_message = f"JSON Decode Error: {e}\n{traceback.format_exc()}"

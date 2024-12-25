@@ -88,10 +88,14 @@ async def recommend_by_keyword(wish):
 
 ## 태그 분류 및 추천
 async def categorize_and_recommend(wish):
-    category_data = await categorize_wish(wish.content)
+    tag_data = await categorize_wish(wish.content)
+    tag = tag_data["tag"]
     
-    recommended_song = await get_song_by_song_index(category_data["song_index"])
-
+    # GPT 분류 태그 내에서 랜덤으로 노래 선택
+    recommended_song = await get_random_song_by_tag(tag)
+    if not recommended_song:
+        raise CustomException(ErrorCode.SONG_NOT_FOUND)
+    
     # 노래 추천 시점 계산
     recommend_time = calculate_recommend_time(recommended_song["start_time"])
 
