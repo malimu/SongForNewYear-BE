@@ -31,8 +31,8 @@ jobs:
     # 4-2. Create keywords_mapping.py file from GitHub Secrets
     - name: Create keywords_mapping.py file
       run: |
-      ls -l
-      echo "${{ secrets.KEYWORDS_MAPPING }}" > ./src/domain/wish/keywords_mapping.py
+        ls -l
+        echo "${{ secrets.KEYWORDS_MAPPING }}" > ./src/domain/wish/keywords_mapping.py
 
     # 5. Build and push Docker image
     - name: Build & push Docker image
