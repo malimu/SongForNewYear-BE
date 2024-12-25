@@ -103,6 +103,8 @@ async def categorize_and_recommend(wish):
 
 ## 노래 데이터 포맷팅
 def format_song_data(song):
+    if "lyrics" in song and isinstance(song["lyrics"], str):
+            song["lyrics"] = song["lyrics"].replace("\\n", "\n")
     return {
         "title": song["title"],
         "artist": song["artist"],
@@ -111,6 +113,7 @@ def format_song_data(song):
         "recommend_time": song["start_time"],
         "youtube_path": song["youtube_path"]
     }
+
 
 ## 추천 시간 계산
 def calculate_recommend_time(start_time):
