@@ -163,4 +163,4 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-src/keywords_mapping.py
+src/domain/wish/keywords_mapping.py
