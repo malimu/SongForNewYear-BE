@@ -15,6 +15,7 @@ class WishRandomResponse(BaseModel):
     content: str
     is_displayed: bool = Field(alias="is_displayed")
     created_at: datetime = Field(alias="created_at")
+    category: str
 
     class Config:
         from_attributes = True 

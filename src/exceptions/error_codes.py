@@ -14,6 +14,8 @@ class ErrorCode(Enum):
     # 5xx 서버 에러
     INTERNAL_SERVER_ERROR = ("5001", "서버 내부 오류가 발생했습니다.")
     EXTERNAL_SERVICE_ERROR = ("5002", "외부 서비스 호출 중 오류가 발생했습니다.")
+    
+    SONG_CATEGORY_IS_MISSING = ("5003", "노래에 카테고리가 누락되었습니다.")
 
     def __init__(self, code: str, message: str):
         self.code = code
