@@ -16,7 +16,7 @@ openai = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 async def categorize_wish(content: str) -> dict:
     # 태그 Enum 목록 가져오기
-    tag_enum = get_tag_enum_list()
+    tag_enum = [tag for tag in get_tag_enum_list() if tag != "SPECIAL"]
 
     # 태그별 노래 목록 가져오기
     total_songs = []
