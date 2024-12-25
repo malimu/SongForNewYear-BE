@@ -27,7 +27,6 @@ class SongRecommendation(BaseModel):
     cover_path: str
     youtube_path: str
     recommend_time: str = Field(alias="recommend_time")
-    total_time: str = Field(alias="total_time")
 
 class RecommendationResponse(BaseModel):
     nickname: str

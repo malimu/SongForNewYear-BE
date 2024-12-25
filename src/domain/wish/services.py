@@ -109,7 +109,7 @@ def format_song_data(song):
         "lyrics": song["lyrics"],
         "cover_path": song["cover_path"],
         "recommend_time": song["start_time"],
-        "youtube_path": song["youtube_path"],
+        "youtube_path": song["youtube_path"]
     }
 
 ## 추천 시간 계산
