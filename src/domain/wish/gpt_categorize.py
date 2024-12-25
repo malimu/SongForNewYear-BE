@@ -22,7 +22,7 @@ async def categorize_wish(content: str) -> dict:
     total_songs = []
     for tag in tag_enum:
         songs = await get_songs_by_tag(tag, skip=0, limit=100)
-        tag_songs = [{"lyrics": song["lyrics"], "tag": tag, "idx": song["song_index"]} for song in songs]
+        tag_songs = [{"tag": tag, "idx": song["song_index"]} for song in songs]
         total_songs.append({
             "category": tag,
             "songs": tag_songs
@@ -57,7 +57,6 @@ async def categorize_wish(content: str) -> dict:
         
         # Extracting the content from the response
         message_content = response.choices[0].message.content
-        print("GPT Response:", message_content) # 디버깅용
 
         # 코드 블록 제거
         if message_content.startswith("```"):
