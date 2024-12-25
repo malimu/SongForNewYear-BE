@@ -100,6 +100,12 @@ async def get_wish_by_id(_id: str) -> dict:
 async def get_random_wishes(limit: int = 4) -> List[dict]:
     # MongoDB의 $sample 사용 (별도 crud 함수 필요할 수도 있음)
     wishes = await db["wish"].aggregate([{"$sample": {"size": limit}}]).to_list(length=limit)
+    for wish in wishes:
+        song = await get_by_id("song", wish["song_id"])
+        if song:
+            wish["category"] = song.get("category", "unknown")
+        else:
+            raise CustomException(ErrorCode.SONG_CATEGORY_IS_MISSING)
     return wishes
 
 # 특정 노래의 wish 갯수 세기
