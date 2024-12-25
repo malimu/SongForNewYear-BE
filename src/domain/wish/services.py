@@ -8,7 +8,7 @@ from src.exceptions.error_codes import ErrorCode
 from src.domain.wish.gpt_categorize import categorize_wish
 from src.domain.song.services import get_song_by_song_index, get_random_song_by_tag
 
-from src.keywords_mapping import keyword_to_tag
+from src.domain.wish.keywords_mapping import keyword_to_tag
 
 # 소원 처리 메인 함수
 async def process_wish(wish):
