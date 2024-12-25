@@ -16,6 +16,14 @@ async def get_songs_by_category(category: Optional[str], skip: int, limit: int) 
     songs = await get_many("song", filter_query, skip, limit)
     return normalize_lyrics(songs)
 
+# 태그별 노래 목록 가져오기
+async def get_songs_by_tag(tag: str, skip: int, limit: int) -> List[dict]:
+    filter_query = {"tag": {"$ne": "SPECIAL"}}
+    if tag:
+        filter_query["tag"] = {"$eq": tag, "$ne": "SPECIAL"}
+    songs = await get_many("song", filter_query, skip, limit)
+    return normalize_lyrics(songs)
+
 # 카테고리에 맞는 총 노래 수를 반환
 async def get_total_songs_count(category: Optional[str]) -> int:
     filter_query = {"category": category} if category else {}
@@ -42,6 +50,17 @@ async def get_random_song_by_category(category: str) -> dict:
     if not result:
         raise CustomException(ErrorCode.SONG_NOT_FOUND)
     return normalize_lyrics(result)[0]
+
+async def get_random_song_by_tag(tag: str) -> dict:
+    result = await db["song"].aggregate([
+        {"$match": {"tag": tag}},
+        {"$sample": {"size": 1}}
+    ]).to_list(length=1)
+    # 결과가 비어 있는 경우
+    if not result:
+        raise CustomException(ErrorCode.SONG_NOT_FOUND)
+    return normalize_lyrics(result)[0]
+
 
 # 공통 메서드: normalize_lyrics (역슬래시 이스케이프 방지)
 def normalize_lyrics(songs: List[dict]) -> List[dict]:

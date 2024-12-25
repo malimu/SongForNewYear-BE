@@ -5,8 +5,8 @@ import traceback
 import logging
 import json
 
-from src.domain.song.category import get_category_enum_list
-from src.domain.song.services import get_songs_by_category
+from src.domain.song.tag import get_tag_enum_list
+from src.domain.song.services import get_songs_by_tag
 from src.exceptions.custom_exceptions import CustomException
 from src.exceptions.error_codes import ErrorCode
 
@@ -15,24 +15,24 @@ load_dotenv()
 openai = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 async def categorize_wish(content: str) -> dict:
-    # 카테고리 Enum 목록 가져오기
-    category_enum = get_category_enum_list()
+    # 태그 Enum 목록 가져오기
+    tag_enum = get_tag_enum_list()
 
-    # 카테고리별 노래 목록 가져오기
+    # 태그별 노래 목록 가져오기
     total_songs = []
-    for category in category_enum:
-        songs = await get_songs_by_category(category, skip=0, limit=100)
-        category_songs = [{"title": song["title"], "idx": song["song_index"]} for song in songs]
+    for tag in tag_enum:
+        songs = await get_songs_by_tag(tag, skip=0, limit=100)
+        tag_songs = [{"title": song["title"], "idx": song["song_index"]} for song in songs]
         total_songs.append({
-            "category": category,
-            "songs": category_songs
+            "category": tag,
+            "songs": tag_songs
         })
 
     # 프롬프트
     prompt = f'''
     당신은 사용자의 소원을 듣고 그것을 다음 8가지 카테고리 중 하나로 분류한 뒤, 제목을 바탕으로 가장 적합한 노래를 골라줍니다.
     소원의 핵심 내용을 이해하고 단 한 곡을 선택해야 합니다.
-    * category 값은 다음 중 하나입니다: {", ".join(category_enum)}
+    * category 값은 다음 중 하나입니다: {", ".join(tag_enum)}
 
     * OUTPUT 형태 및 자료형:
     {{
@@ -65,7 +65,6 @@ async def categorize_wish(content: str) -> dict:
         response_json = json.loads(message_content)
 
         # Extracting required data
-        # category = response_json.get("category")
         song_index = response_json.get("idx")
 
         # Validating the response
@@ -74,7 +73,6 @@ async def categorize_wish(content: str) -> dict:
 
         # Returning the result
         return {
-            # "category": category,
             "song_index": song_index
         }
 
