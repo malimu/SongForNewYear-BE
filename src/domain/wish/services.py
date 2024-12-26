@@ -128,7 +128,7 @@ def format_song_data(song):
         "artist": song["artist"],
         "lyrics": song["lyrics"],
         "cover_path": song["cover_path"],
-        "recommend_time": song["start_time"],
+        "recommend_time": calculate_recommend_time(song["start_time"]),
         "youtube_path": song["youtube_path"]
     }
 
