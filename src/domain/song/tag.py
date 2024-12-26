@@ -19,6 +19,8 @@ class TagEnum(Enum):
     SUCCESS = "SUCCESS"
     LUCK = "LUCK"
     MEAL = "MEAL"
+    CUTE = "CUTE"
+    PRETTY = "PRETTY"
 
 # 태그 목록 가져오기
 def get_tag_enum_list():
