@@ -16,7 +16,7 @@ class TagEnum(Enum):
     LOVE_START = "LOVE_START"
     LOVE_KEEP = "LOVE_KEEP"
     HAPPINESS = "HAPPINESS"
-    SUCCESS = "SUCCESS"
+    ACHIEVED = "ACHIEVED"
     LUCK = "LUCK"
     MEAL = "MEAL"
     CUTE = "CUTE"
