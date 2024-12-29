@@ -84,13 +84,13 @@
   </tr>
   <tr height="30px">
     <td align="center">
-      PM, BackEnd, UIUX
+      PM, BackEnd, 기획
     </td>
     <td align="center">
-      기획, BackEnd, UIUX
+      BackEnd, 기획, UIUX
     </td>
     <td align="center">
-      Frontend
+      Frontend, 기획
     </td>
   </tr>
   <tr height="160px">
