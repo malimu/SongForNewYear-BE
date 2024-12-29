@@ -18,8 +18,11 @@ async def get_by_column_value(collection: str, column_name: str, value: Any) -> 
     return result
 
 # READ: 조건으로 데이터 가져오기 (페이징 지원)
-async def get_many(collection: str, filter: dict, skip: int = 0, limit: int = 10) -> List[dict]:
-    results = await db[collection].find(filter).skip(skip).limit(limit).to_list(length=limit)
+async def get_many(collection: str, filter: dict, skip: int = 0, limit: int = 10, sort_by: Optional[str] = None, sort_direction: int = 1) -> List[dict]:
+    query = db[collection].find(filter).skip(skip).limit(limit)
+    if sort_by:
+        query = query.sort(sort_by, sort_direction)
+    results = await query.to_list(length=limit)
     return results
 
 # UPDATE: 특정 ID의 데이터 수정
