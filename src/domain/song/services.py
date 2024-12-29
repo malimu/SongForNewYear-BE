@@ -7,13 +7,15 @@ from typing import Optional, List
 # 전체 노래 목록 가져오기
 async def get_all_songs(skip: int, limit: int) -> List[dict]:
     filter_query = {}
-    songs = await get_many("song", filter_query, skip, limit)
+    sort_criteria = [("title", 1)] 
+    songs = await get_many("song", filter_query, skip, limit, sort=sort_criteria)
     return normalize_lyrics(songs)
 
 # 카테고리별 노래 목록 가져오기
 async def get_songs_by_category(category: Optional[str], skip: int, limit: int) -> List[dict]:
     filter_query = {"category": category} if category else {}
-    songs = await get_many("song", filter_query, skip, limit)
+    ort_criteria = [("title", 1)] 
+    songs = await get_many("song", filter_query, skip, limit, sort=sort_criteria)
     return normalize_lyrics(songs)
 
 # 태그별 노래 목록 가져오기
