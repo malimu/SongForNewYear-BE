@@ -87,7 +87,7 @@
       PM, Backend, 기획
     </td>
     <td align="center">
-      Backend, 기획, UIUX
+      Backend, 기획, UXUI
     </td>
     <td align="center">
       Frontend, 기획
@@ -124,7 +124,7 @@
   </tr>
   <tr height="30px">
     <td align="center">
-      Frontend, UIUX
+      Frontend, UXUI
     </td>
     <td align="center">
       Illust Design
@@ -134,6 +134,3 @@
     </td>
   </tr>
 </table>
-
-
-
