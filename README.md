@@ -5,17 +5,15 @@
 ### 당신의 새해 소원이 다~ 이루어지길 바람🐿🎶
 
 <a href="https://songfornewyear.vercel.app/">
-  <img alt="새해첫곡 바로가기" src="https://img.shields.io/badge/새해첫곡%20바로가기-%23FFFDF1">
+  <img alt="새해첫곡 Website" src="https://img.shields.io/badge/새해첫곡%20바로가기-%23FFFDF1">
+</a>
+<a href="https://www.instagram.com/songfornewyear/">
+  <img alt="Instagram" src="https://img.shields.io/badge/-Instagram-white?logo=Instagram&logoColor=d42121">
 </a>
 <br>
 <img src="https://github.com/user-attachments/assets/a3666e72-0ff0-41de-a915-a8c85c8c9b24" width="280">
 <br>
 
-<a href="https://hits.seeyoufarm.com">
-  <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fmalimu%2FSongForNewYear-BE&count_bg=%236B5743&title_bg=%23FFE4A4&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false"/>
-</a> <a href="https://www.instagram.com/songfornewyear/">
-  <img alt="Instagram" src="https://img.shields.io/badge/-Instagram-white?logo=Instagram&logoColor=d42121">
-</a>
 <br>
 </div>
 
